@@ -13,9 +13,12 @@ class TestPostProcessing < MiniTest::Test
     line0 = lines[0].chomp
     line1 = lines[1].chomp
     line2 = lines[2].chomp
+    line3 = lines[3].chomp
 
-    assert_equal('1.05,1.56,2.08,1.57', line0)
-    assert_equal('0.53,1.05,2.65,0.52', line1)
-    assert_equal('1.57,2.13,2.13,0.53', line2)
+    assert_equal('19.54', line0)
+    assert_equal('21.34', line1)
+    assert_equal('21.20', line2)
+    assert_equal('21.90', line3)
+    assert_equal('21.57', line4)
   end
 end

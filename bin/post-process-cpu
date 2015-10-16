@@ -16,16 +16,52 @@ end
 RE = %r{^[\d:]{8} [AP]+M +(?<header>CPU)|(?<processor_index>\d+) +(?<processor_load>[\d\.]+)}
 
 sample = nil
+block_data = []
+measurement_period = []
+threshold = 10
 
 File.read(input_file).lines do |line|
   match_result = RE.match(line)
   next unless match_result
 
+  # bus
   if match_result[:header]
-    puts sample.join(',') if sample
+    current_sample = (sample.inject(:+) / sample.size)
+
+    if sample && current_sample > 10
+      block_data << current_sample
+    else
+      puts '%.2f' % block_data.avg if block_data
+      block_data = []
+    end
+
     sample = Array.new(4)
     next
   end
+
+  # su
+  if match_result[:header]
+    if sample
+      current_sample = (sample.inject(:+) / sample.size)
+      last_sample = measurement_period.last
+
+      if current_sample > threshold && last_sample < threshold
+        # starting new measurement period 'concurrency x'
+        measurement_period << current_sample
+      end
+
+      if current_sample < threshold && last_sample > threshold
+        # ending current measurement period 'concurrency x'
+        measurement_period_average =
+        puts '%.2f' % measurement_period_average
+        measurement_period = []
+      end
+    end
+
+    sample = Array.new(4)
+    next
+  end
+
 
   processor_index = match_result[:processor_index]
 
@@ -34,5 +70,17 @@ File.read(input_file).lines do |line|
     next
   end
 
-  sample[processor_index.to_i] = match_result[:processor_load]
+  sample[processor_index.to_i] = match_result[:processor_load].to_f
 end
+
+
+__END__
+
+match_line
+  each block (identified by header)
+    if cpu-load > 10%
+       reset if not initialized
+       summarize accross cpus
+    else
+      print result
+      reset
