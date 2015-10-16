@@ -27,9 +27,9 @@ uri = "http://10.244.0.134:9022/v2/organizations/23056b64-4136-4e4a-8914-2527780
 #uri = "https://api.stage0.ng.bluemix.net/v2/info"#organizations/6520b9d8-0af9-48f7-a627-2b909e3879b2/spaces
 
 [1, 10, 20, 50, 100].each do |i|
-#   sleep 10
+   sleep 10
    STDERR.puts "Running ApacheBench with concurrency #{i}:"
-#   puts %x{ab -H "Authorization: #{token}" -c #{i} -t 60 -v 2 #{uri} > concurrency_#{"%03d" % i}.txt}
+   puts %x{ab -H "Authorization: #{token}" -c #{i} -t 60 -v 2 #{uri} > concurrency_#{"%03d" % i}.txt}
 end
 
 STDERR.puts <<EOM
