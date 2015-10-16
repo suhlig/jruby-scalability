@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+input_file = ARGV[0]
+
+if input_file.nil?
+  STDERR.puts "Missing argument for the file to process."
+  exit 1
+end
+
+if not File.exist?(input_file)
+  STDERR.puts "File #{input_file} does not exist."
+  exit 1
+end
+
+# http://rubular.com/r/KLSlxCazOO
+RE = %r{^[\d:]{8} [AP]+M +(?<header>CPU)|(?<processor_index>\d+) +(?<processor_load>[\d\.]+)}
+
+sample = nil
+
+File.read(input_file).lines do |line|
+  match_result = RE.match(line)
+  next unless match_result
+
+  if match_result[:header]
+    puts sample.join(',') if sample
+    sample = Array.new(4)
+    next
+  end
+
+  processor_index = match_result[:processor_index]
+
+  if processor_index.to_i.to_s != processor_index
+    STDERR.puts "#{processor_index} is not a valid processor index"
+    next
+  end
+
+  sample[processor_index.to_i] = match_result[:processor_load]
+end
