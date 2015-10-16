@@ -18,13 +18,10 @@ raise "Unable to set API end point." unless result
 result = system("cf login -u admin -p admin --skip-ssl-validation")
 raise "Unable to log in. At stage0, use IBM id." unless result
 
-# Fetch oauth token
 token = %x{cf oauth-token}.lines.last.chomp
 
 # TODO Update org GUID
 uri = "http://10.244.0.134:9022/v2/organizations/23056b64-4136-4e4a-8914-2527780dcfb0/spaces"
-#uri = "http://10.244.0.134:9022/v2/organizations/23056b64-4136-4e4a-8914-2527780dcfb0/services"
-#uri = "https://api.stage0.ng.bluemix.net/v2/info"#organizations/6520b9d8-0af9-48f7-a627-2b909e3879b2/spaces
 
 [1, 10, 20, 50, 100].each do |i|
    sleep 10
