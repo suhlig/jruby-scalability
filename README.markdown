@@ -8,8 +8,8 @@ In our measurements, we saw 20..30% improvement in both average response time an
 
 Graphs:
 
-    * Throughput:    https://goo.gl/NuWkvf
-    * Response Time: https://goo.gl/ItPBHN
+* Throughput:    https://goo.gl/NuWkvf
+* Response Time: https://goo.gl/ItPBHN
 
 We patched a CC VM to use JRuby 9000 under OpenJDK 8. WEBrick was used as we weren't able to quickly find a drop-in replacement for Thin (as used under MRI). All measurements were taken on a 2014 MacBook Pro running Cloudfoundry in a BOSH Lite environment.
 
