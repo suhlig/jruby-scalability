@@ -6,8 +6,10 @@ This exercise wasn't set up as a scientific benchmark; it is more of a spike tha
 
 In our measurements, we saw 20..30% improvement in both average response time and throughput when 10 or more concurrent requests were made (using ApacheBench against the `/v2/orgs/*/spaces` endpoint).
 
-Throughput Graph:    https://goo.gl/NuWkvf
-Response Time Graph: https://goo.gl/ItPBHN
+Graphs:
+
+    * Throughput:    https://goo.gl/NuWkvf
+    * Response Time: https://goo.gl/ItPBHN
 
 We patched a CC VM to use JRuby 9000 under OpenJDK 8. WEBrick was used as we weren't able to quickly find a drop-in replacement for Thin (as used under MRI). All measurements were taken on a 2014 MacBook Pro running Cloudfoundry in a BOSH Lite environment.
 
