@@ -1,5 +1,20 @@
 # CloudController on JRuby
 
+The Flintstone team recently spent some time researching the potential benefits of running the CloudController under JRuby. We were hoping to find evidence that JRuby (and the underlying JVM) would allow us to make better use of multiple cores, and maybe also lead to significant response time improvements when answering many parallel requests.
+
+This exercise wasn't set up as a scientific benchmark; it is more of a spike that would allow us to judge whether it is worth investigating the next level of detail. We would like to share some early results in the hope to get feedback from the community.
+
+In our measurements, we saw 20..30% improvement in both average response time and throughput when 10 or more concurrent requests were made (using ApacheBench against the `/v2/orgs/*/spaces` endpoint).
+
+Throughput Graph:    https://goo.gl/NuWkvf
+Response Time Graph: https://goo.gl/ItPBHN
+
+We patched a CC VM to use JRuby 9000 under OpenJDK 8. WEBrick was used as we weren't able to quickly find a drop-in replacement for Thin (as used under MRI). All measurements were taken on a 2014 MacBook Pro running Cloudfoundry in a BOSH Lite environment.
+
+For more details see the [spreadsheet](https://docs.google.com/spreadsheets/d/1C1raorozKrf_RO-fiS5Nw38GPsMMgAegyw5iCxO8VT0/) and our [repository](https://github.com/suhlig/jruby-scalability) with the test scripts.
+
+# Steps to Reproduce
+
 1. Install OpenJDK
 
         $ apt-get update
@@ -57,4 +72,4 @@ Trouble makers:
 # Measurements
 
 * Run `bin/benchmark`
-* Fill in [spreadsheet](https://docs.google.com/spreadsheets/d/1C1raorozKrf_RO-fiS5Nw38GPsMMgAegyw5iCxO8VT0/) from the results 
+* Fill in [spreadsheet](https://docs.google.com/spreadsheets/d/1C1raorozKrf_RO-fiS5Nw38GPsMMgAegyw5iCxO8VT0/) from the results
